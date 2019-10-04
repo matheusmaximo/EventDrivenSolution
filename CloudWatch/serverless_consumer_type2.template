@@ -1,0 +1,89 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Transform" : "AWS::Serverless-2016-10-31",
+    "Description" : "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
+	
+    "Resources" : {
+        "MainQueue" : {
+            "Type" : "AWS::SQS::Queue",
+            "Properties" : {
+                "QueueName" : {"Fn::Join" : [ "", [ { "Ref" : "AWS::StackName" }, "-Type2Queue" ] ]},
+                "RedrivePolicy" : {
+                   "deadLetterTargetArn" : {"Fn::GetAtt" : [ "DLQueue", "Arn"]},
+                   "maxReceiveCount" : 3
+                }
+            }
+        },
+
+        "DLQueue" : {
+            "Type" : "AWS::SQS::Queue",
+            "Properties" : {
+                "QueueName" : { "Fn::Join" : [ "", [ { "Ref" : "AWS::StackName" }, "-Type2DLQueue" ] ] }
+            }
+        },
+		
+        "EventRule" : {
+            "Type" : "AWS::Events::Rule",
+            "Properties" : {
+				"Description" : "Receive events Type2Consumer",
+                "Targets" : [
+					{
+						"Arn" : {"Fn::GetAtt" : [ "MainQueue", "Arn"]},
+						"Id" : "Type2Queue"
+					}
+				],
+                "State" : "ENABLED",
+                "EventPattern" : {
+					"source": [ "Genesis.PoC.EventDrivenSolution.CloudWatch" ],
+					"detail-type": [ "new ApplicationMessage received" ],
+					"detail": {
+						"ConsumerTypes": [
+							"Type2Consumer"
+						]
+					}
+				}
+            }
+        },
+
+        "MainQueuePolicy" : {
+            "Type" : "AWS::SQS::QueuePolicy",
+            "Properties" : {
+                "PolicyDocument" : {
+                    "Statement": {
+                      "Effect": "Allow",
+                      "Principal": "*",
+                      "Action": "sqs:*",
+                      "Resource": "*",
+                      "Condition": {
+                        "ArnEquals": {
+                          "aws:SourceArn": {"Fn::GetAtt" : [ "EventRule", "Arn"]}
+                        }
+                      }
+                    }
+                },
+                "Queues" : [ { "Ref" : "MainQueue" } ]
+            }
+        },
+
+        "Type2ConsumerFunction" : {
+            "Type" : "AWS::Serverless::Function",
+            "Properties" : {
+                "Handler": "Consumer::Consumer.Function::FunctionHandler",
+                "Runtime": "dotnetcore2.1",
+                "CodeUri": "artifacts/Consumer.zip",
+                "MemorySize": 256,
+                "Timeout": 30,
+                "Role": null,
+                "Policies": [ "AWSLambdaFullAccess" ],
+                "Events" : {
+                    "OrderArrived" : {
+                        "Type" : "SQS",
+                        "Properties" : {
+                            "Queue" : {"Fn::GetAtt" : [ "MainQueue", "Arn"]}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,106 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - SNS SQS", "01 - SNS SQS", "{5D656EBB-27ED-4F7A-B0F0-199089E3C2FE}"
+	ProjectSection(SolutionItems) = preProject
+		SNS SQS\deploy steps.txt = SNS SQS\deploy steps.txt
+		SNS SQS\serverless.template = SNS SQS\serverless.template
+		SNS SQS\serverless_consumer_type1.template = SNS SQS\serverless_consumer_type1.template
+		SNS SQS\serverless_consumer_type2.template = SNS SQS\serverless_consumer_type2.template
+		SNS SQS\serverless_consumer_type3.template = SNS SQS\serverless_consumer_type3.template
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - CloudWatch", "02 - CloudWatch", "{25543A21-A0B2-48AA-916F-94710A7EA24B}"
+	ProjectSection(SolutionItems) = preProject
+		CloudWatch\serverless.template = CloudWatch\serverless.template
+		CloudWatch\serverless_consumer_type1.template = CloudWatch\serverless_consumer_type1.template
+		CloudWatch\serverless_consumer_type2.template = CloudWatch\serverless_consumer_type2.template
+		CloudWatch\serverless_consumer_type3.template = CloudWatch\serverless_consumer_type3.template
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - EventBridge", "03 - EventBridge", "{E5088374-4A96-4705-95B4-8DA308665C64}"
+	ProjectSection(SolutionItems) = preProject
+		EventBridge\serverless.template = EventBridge\serverless.template
+		EventBridge\serverless_consumer_type1.template = EventBridge\serverless_consumer_type1.template
+		EventBridge\serverless_consumer_type2.template = EventBridge\serverless_consumer_type2.template
+		EventBridge\serverless_consumer_type3.template = EventBridge\serverless_consumer_type3.template
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{95856811-2032-400C-8E14-A65D497E4C22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "SNS SQS\src\Api\Api.csproj", "{BD5A2E51-1812-4773-9627-BC4FCDDA451B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B6B26F33-5523-4A3A-A09A-816761DFBE73}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiDtos", "Shared\src\ApiDtos\ApiDtos.csproj", "{73F6F495-6455-4141-9951-A325F2EDD776}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer", "SNS SQS\src\Consumer\Consumer.csproj", "{180AA402-18CD-42B6-9F97-5FEA9BD85EFA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8FDC7DBF-CF36-4716-841D-BC7882F25CFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "CloudWatch\src\Api\Api.csproj", "{A6783BED-18C1-498F-B63F-623DDCE34479}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer", "CloudWatch\src\Consumer\Consumer.csproj", "{C0977E93-7631-4D50-AAF3-61A0531489AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A3E8A211-D31D-42B4-BD1E-07E01C7D29BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "EventBridge\src\Api\Api.csproj", "{CCBC147E-0C39-4BA2-AB35-4BD232D86594}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer", "EventBridge\src\Consumer\Consumer.csproj", "{72BCFC87-1ABF-4F16-9933-BC90D7D79DCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD5A2E51-1812-4773-9627-BC4FCDDA451B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD5A2E51-1812-4773-9627-BC4FCDDA451B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD5A2E51-1812-4773-9627-BC4FCDDA451B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD5A2E51-1812-4773-9627-BC4FCDDA451B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F6F495-6455-4141-9951-A325F2EDD776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F6F495-6455-4141-9951-A325F2EDD776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F6F495-6455-4141-9951-A325F2EDD776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F6F495-6455-4141-9951-A325F2EDD776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{180AA402-18CD-42B6-9F97-5FEA9BD85EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{180AA402-18CD-42B6-9F97-5FEA9BD85EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{180AA402-18CD-42B6-9F97-5FEA9BD85EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{180AA402-18CD-42B6-9F97-5FEA9BD85EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6783BED-18C1-498F-B63F-623DDCE34479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6783BED-18C1-498F-B63F-623DDCE34479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6783BED-18C1-498F-B63F-623DDCE34479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6783BED-18C1-498F-B63F-623DDCE34479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0977E93-7631-4D50-AAF3-61A0531489AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0977E93-7631-4D50-AAF3-61A0531489AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0977E93-7631-4D50-AAF3-61A0531489AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0977E93-7631-4D50-AAF3-61A0531489AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCBC147E-0C39-4BA2-AB35-4BD232D86594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCBC147E-0C39-4BA2-AB35-4BD232D86594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCBC147E-0C39-4BA2-AB35-4BD232D86594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCBC147E-0C39-4BA2-AB35-4BD232D86594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72BCFC87-1ABF-4F16-9933-BC90D7D79DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72BCFC87-1ABF-4F16-9933-BC90D7D79DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72BCFC87-1ABF-4F16-9933-BC90D7D79DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72BCFC87-1ABF-4F16-9933-BC90D7D79DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{95856811-2032-400C-8E14-A65D497E4C22} = {5D656EBB-27ED-4F7A-B0F0-199089E3C2FE}
+		{BD5A2E51-1812-4773-9627-BC4FCDDA451B} = {95856811-2032-400C-8E14-A65D497E4C22}
+		{73F6F495-6455-4141-9951-A325F2EDD776} = {B6B26F33-5523-4A3A-A09A-816761DFBE73}
+		{180AA402-18CD-42B6-9F97-5FEA9BD85EFA} = {95856811-2032-400C-8E14-A65D497E4C22}
+		{8FDC7DBF-CF36-4716-841D-BC7882F25CFC} = {25543A21-A0B2-48AA-916F-94710A7EA24B}
+		{A6783BED-18C1-498F-B63F-623DDCE34479} = {8FDC7DBF-CF36-4716-841D-BC7882F25CFC}
+		{C0977E93-7631-4D50-AAF3-61A0531489AE} = {8FDC7DBF-CF36-4716-841D-BC7882F25CFC}
+		{A3E8A211-D31D-42B4-BD1E-07E01C7D29BC} = {E5088374-4A96-4705-95B4-8DA308665C64}
+		{CCBC147E-0C39-4BA2-AB35-4BD232D86594} = {A3E8A211-D31D-42B4-BD1E-07E01C7D29BC}
+		{72BCFC87-1ABF-4F16-9933-BC90D7D79DCE} = {A3E8A211-D31D-42B4-BD1E-07E01C7D29BC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6624EB06-9F5E-432F-8FDE-C26100AF41A6}
+	EndGlobalSection
+EndGlobal

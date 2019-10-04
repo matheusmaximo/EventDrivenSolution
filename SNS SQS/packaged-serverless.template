@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Application that uses the ASP.NET Core framework running
+  in Amazon Lambda.
+Resources:
+  EventTopic:
+    Type: AWS::SNS::Topic
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: Api::Api.LambdaEntryPoint::FunctionHandlerAsync
+      Runtime: dotnetcore2.1
+      CodeUri: s3://dev.genesis.eventdriven/8d1336fd349775f3f29337d06ad1c283
+      MemorySize: 256
+      Timeout: 30
+      Role: null
+      Policies:
+      - AWSLambdaFullAccess
+      Environment:
+        Variables:
+          EventTopicArn:
+            Ref: EventTopic
+      Events:
+        ProxyResource:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+  ConsumerType1Stack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-1.amazonaws.com/dev.genesis.eventdriven/2dffbd88e6ce0caf07b0c4c29071c50e.template
+      Parameters:
+        EventTopicArn:
+          Ref: EventTopic
+  ConsumerType2Stack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-1.amazonaws.com/dev.genesis.eventdriven/9e2a464263efc7d2f32b6198f7d889f7.template
+      Parameters:
+        EventTopicArn:
+          Ref: EventTopic
+  ConsumerType3Stack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-1.amazonaws.com/dev.genesis.eventdriven/649f87afa55338beda2973bcaff31538.template
+      Parameters:
+        EventTopicArn:
+          Ref: EventTopic
+Outputs:
+  ApiURL:
+    Description: API endpoint URL for Prod environment
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/

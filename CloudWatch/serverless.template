@@ -1,0 +1,66 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Transform" : "AWS::Serverless-2016-10-31",
+    "Description" : "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
+
+    "Resources" : {
+        "EventBusPolicy" : {
+            "Type" : "AWS::Events::EventBusPolicy",
+            "Properties" : {
+                "Action" : "events:PutEvents",
+                "Principal" : { "Ref" : "AWS::AccountId" },
+                "StatementId" : { "Fn::Sub" : "${AWS::StackName}-EventBusPolicy" }
+            }
+        },
+
+        "ApiFunction" : {
+            "Type" : "AWS::Serverless::Function",
+            "Properties": {
+                "Handler": "Api::Api.LambdaEntryPoint::FunctionHandlerAsync",
+                "Runtime": "dotnetcore2.1",
+                "CodeUri": "artifacts/Api.zip",
+                "MemorySize": 256,
+                "Timeout": 30,
+                "Role": null,
+                "Policies": [ "AWSLambdaFullAccess", "CloudWatchEventsFullAccess" ],
+                "Events": {
+                    "ProxyResource": {
+                        "Type": "Api",
+                        "Properties": {
+                            "Path": "/{proxy+}",
+                            "Method": "ANY"
+                        }
+                    }
+                }
+            }
+        },
+
+        "ConsumerType1Stack" : {
+            "Type" : "AWS::Serverless::Application",
+            "Properties" : {
+                "Location" : "./serverless_consumer_type1.template"
+            }
+        },
+
+        "ConsumerType2Stack" : {
+            "Type" : "AWS::Serverless::Application",
+            "Properties" : {
+                "Location" : "./serverless_consumer_type2.template"
+            }
+        },
+
+        "ConsumerType3Stack" : {
+            "Type" : "AWS::Serverless::Application",
+            "Properties" : {
+                "Location" : "./serverless_consumer_type3.template"
+            }
+        }
+    },
+
+    "Outputs" : {
+        "ApiURL" : {
+            "Description" : "API endpoint URL for Prod environment",
+            "Value" : { "Fn::Sub" : "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/" }
+        }
+    }
+}

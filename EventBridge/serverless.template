@@ -1,0 +1,76 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Transform" : "AWS::Serverless-2016-10-31",
+    "Description" : "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
+
+    "Resources" : {
+
+        "EventTopic" : {
+            "Type" : "AWS::SNS::Topic"
+        },
+
+        "ApiFunction" : {
+            "Type" : "AWS::Serverless::Function",
+            "Properties": {
+                "Handler": "Api::Api.LambdaEntryPoint::FunctionHandlerAsync",
+                "Runtime": "dotnetcore2.1",
+                "CodeUri": "artifacts/Api.zip",
+                "MemorySize": 256,
+                "Timeout": 30,
+                "Role": null,
+                "Policies": [ "AWSLambdaFullAccess" ],
+                "Environment" : {
+                    "Variables" : {
+                        "EventTopicArn": { "Ref" : "EventTopic" }
+                    }
+                },
+                "Events": {
+                    "ProxyResource": {
+                        "Type": "Api",
+                        "Properties": {
+                            "Path": "/{proxy+}",
+                            "Method": "ANY"
+                        }
+                    }
+                }
+            }
+        },
+
+        "ConsumerType1Stack" : {
+            "Type" : "AWS::Serverless::Application",
+            "Properties" : {
+                "Location" : "./serverless_consumer_type1.template",
+                "Parameters" : {
+                    "EventTopicArn": { "Ref" : "EventTopic" }
+                }
+            }
+        },
+
+        "ConsumerType2Stack" : {
+            "Type" : "AWS::Serverless::Application",
+            "Properties" : {
+                "Location" : "./serverless_consumer_type2.template",
+                "Parameters" : {
+                    "EventTopicArn": { "Ref" : "EventTopic" }
+                }
+            }
+        },
+
+        "ConsumerType3Stack" : {
+            "Type" : "AWS::Serverless::Application",
+            "Properties" : {
+                "Location" : "./serverless_consumer_type3.template",
+                "Parameters" : {
+                    "EventTopicArn": { "Ref" : "EventTopic" }
+                }
+            }
+        }
+    },
+
+    "Outputs" : {
+        "ApiURL" : {
+            "Description" : "API endpoint URL for Prod environment",
+            "Value" : { "Fn::Sub" : "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/" }
+        }
+    }
+}

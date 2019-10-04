@@ -1,0 +1,12 @@
+dotnet publish .\src\Api\Api.csproj -o '.\..\..\publish\Api\' -c Release
+
+dotnet publish .\src\Consumer\Consumer.csproj -o '.\..\..\publish\Consumer\' -c Release
+
+Compress-Archive .\publish\Api\*.* .\artifacts\Api.zip -Force
+
+Compress-Archive .\publish\Consumer\*.* .\artifacts\Consumer.zip -Force
+
+aws cloudformation package --template-file serverless.template --s3-bucket dev.genesis.eventdriven --output-template-file packaged-serverless.template --profile genesis
+
+aws cloudformation deploy --template-file .\packaged-serverless.template --stack-name EventDrivenSNS --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --profile genesis
+
